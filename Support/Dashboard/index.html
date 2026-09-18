@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AutoChaos | Resilience Campaign</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="dashboard-topbar">
+    <div class="brand"><span class="brand-orbit">✦</span><span>AutoChaos</span><em>RESILIENCE LAB</em></div>
+    <div class="refresh-state"><span class="pulse"></span><span id="refreshLabel">Waiting for campaign data</span><button id="refreshBtn">REFRESH</button></div>
+  </header>
+  <main class="dashboard-shell">
+    <section class="hero">
+      <div><span class="eyebrow">AUTOMATED RESILIENCE VALIDATION</span><h1>Know how your automation behaves<br><span>when assumptions break.</span></h1><p>Controlled fault injection for RPA workflows — measured, evidenced, and safe to repeat.</p></div>
+      <div class="hero-meta"><span class="eyebrow">LATEST RUN</span><strong id="runId">—</strong><span id="runState">No results yet</span></div>
+    </section>
+    <section id="emptyState" class="empty-state"><div class="empty-icon">◌</div><h2>Campaign results will appear here</h2><p>Run <code>Main.xaml</code> while the local demo server is active. This dashboard refreshes from <code>Data/Output/results.csv</code>.</p></section>
+    <section id="resultsView" hidden>
+      <section class="kpis">
+        <article class="kpi"><span class="eyebrow">SCENARIOS</span><strong id="totalKpi">0</strong><small>enabled checks</small></article>
+        <article class="kpi"><span class="eyebrow">PASSING</span><strong id="passKpi" class="green-text">0</strong><small>resilient outcomes</small></article>
+        <article class="kpi"><span class="eyebrow">SAFE FAILURES</span><strong id="safeKpi" class="amber-text">0</strong><small>contained outcomes</small></article>
+        <article class="kpi critical"><span class="eyebrow">CRITICAL</span><strong id="failKpi" class="red-text">0</strong><small>integrity findings</small></article>
+      </section>
+      <section class="insight-grid">
+        <article class="panel score-panel"><div class="panel-title"><div><span class="eyebrow">RESILIENCE SCORE</span><h2>Campaign health</h2></div><span id="scoreLabel" class="score-label">—</span></div><div class="score-wrap"><div class="score-ring" id="scoreRing"><div><strong id="scoreValue">—</strong><span>/ 100</span></div></div><div class="score-copy"><strong id="scoreHeadline">Awaiting execution</strong><p id="scoreDescription">Complete a campaign to see how many injected faults the automation tolerated safely.</p></div></div><div class="submetrics"><div><span>RECOVERY RATE</span><strong id="recoveryMetric">—</strong></div><div><span>INTEGRITY</span><strong id="integrityMetric">—</strong></div><div><span>CAMPAIGN CONTINUITY</span><strong id="continuityMetric">—</strong></div></div></article>
+        <article class="panel findings-panel"><div class="panel-title"><div><span class="eyebrow">CRITICAL FINDINGS</span><h2>Where risk surfaced</h2></div><span class="finding-count" id="findingCount">0</span></div><div id="findingsList" class="findings-list"></div></article>
+      </section>
+      <article class="panel timeline-panel"><div class="panel-title"><div><span class="eyebrow">EXECUTION ORDER</span><h2>Fault campaign timeline</h2></div><span class="muted">live result sequence</span></div><div id="timeline" class="timeline"></div></article>
+      <article class="panel table-panel"><div class="panel-title"><div><span class="eyebrow">EVIDENCE LOG</span><h2>Scenario results</h2></div><span class="muted" id="tableSummary"></span></div><div class="table-wrap"><table><thead><tr><th>Scenario</th><th>Injected fault</th><th>Expected</th><th>Observed</th><th>Verdict</th><th>Integrity</th><th>Duration</th><th>Evidence</th></tr></thead><tbody id="resultsBody"></tbody></table></div></article>
+    </section>
+  </main>
+  <footer>AutoChaos · deterministic local resilience testing · no production systems connected</footer>
+  <script src="dashboard.js"></script>
+</body>
+</html>
+

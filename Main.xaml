@@ -1,0 +1,77 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:sc="clr-namespace:System.Collections;assembly=System.Private.CoreLib"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib"
+ xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Sequence DisplayName="AutoChaos Main">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="projectRoot" />
+      <Variable x:TypeArguments="x:String" Name="runId" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtScenarios" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtResults" />
+      <Variable x:TypeArguments="x:String" Name="basePortalUrl" />
+      <Variable x:TypeArguments="x:String" Name="dashboardUrl" />
+    </Sequence.Variables>
+    <Assign x:TypeArguments="x:String" DisplayName="Resolve project root">
+      <Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="projectRoot" /></OutArgument></Assign.To>
+      <Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="System.Environment.CurrentDirectory" /></InArgument></Assign.Value>
+    </Assign>
+    <ui:InvokeWorkflowFile DisplayName="Initialize campaign" WorkflowFileName="Workflows\InitRun.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <scg:Dictionary x:TypeArguments="x:String, Argument">
+          <InArgument x:TypeArguments="x:String" x:Key="in_ProjectRoot">[projectRoot]</InArgument>
+          <OutArgument x:TypeArguments="x:String" x:Key="out_RunId">[runId]</OutArgument>
+          <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_Results">[dtResults]</OutArgument>
+          <OutArgument x:TypeArguments="x:String" x:Key="out_BasePortalUrl">[basePortalUrl]</OutArgument>
+          <OutArgument x:TypeArguments="x:String" x:Key="out_DashboardUrl">[dashboardUrl]</OutArgument>
+        </scg:Dictionary>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <ui:ReadCsvFile DisplayName="Read scenarios" FilePath="[System.IO.Path.Combine(projectRoot, &quot;Data&quot;, &quot;Input&quot;, &quot;scenarios.csv&quot;)]" IncludeColumnNames="True" DataTable="[dtScenarios]" />
+    <ui:ForEach x:TypeArguments="sd:DataRow" DisplayName="For each enabled scenario">
+      <ui:ForEach.Values>
+        <InArgument x:TypeArguments="sc:IEnumerable"><VisualBasicValue x:TypeArguments="sc:IEnumerable" ExpressionText="dtScenarios.Rows" /></InArgument>
+      </ui:ForEach.Values>
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="sd:DataRow">
+          <ActivityAction.Argument><DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" /></ActivityAction.Argument>
+          <Sequence DisplayName="Process scenario">
+            <If DisplayName="If enabled">
+              <If.Condition><InArgument x:TypeArguments="x:Boolean"><VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="row(&quot;enabled&quot;).ToString.Trim.ToLower = &quot;true&quot;" /></InArgument></If.Condition>
+              <If.Then>
+                <Sequence DisplayName="Enabled scenario">
+                  <ui:InvokeWorkflowFile DisplayName="Run isolated scenario" WorkflowFileName="Workflows\RunScenario.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <scg:Dictionary x:TypeArguments="x:String, Argument">
+                        <InArgument x:TypeArguments="sd:DataRow" x:Key="in_Scenario">[row]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_RunId">[runId]</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_BasePortalUrl">[basePortalUrl]</InArgument>
+                        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_Results">[dtResults]</InOutArgument>
+                      </scg:Dictionary>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                </Sequence>
+              </If.Then>
+              <If.Else><Sequence DisplayName="Skipped scenario" /></If.Else>
+            </If>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <ui:InvokeWorkflowFile DisplayName="Finalize campaign" WorkflowFileName="Workflows\FinalizeRun.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <scg:Dictionary x:TypeArguments="x:String, Argument">
+          <InArgument x:TypeArguments="sd:DataTable" x:Key="in_Results">[dtResults]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_DashboardUrl">[dashboardUrl]</InArgument>
+          <InArgument x:TypeArguments="x:String" x:Key="in_RunId">[runId]</InArgument>
+        </scg:Dictionary>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+  </Sequence>
+</Activity>

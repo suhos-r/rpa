@@ -1,0 +1,6 @@
+{
+  "Name": "AutoChaos",
+  "ProjectType": "Process",
+  "Description": "Automated resilience validation and fault injection for RPA",
+  "MainFile": "Main.xaml"
+}

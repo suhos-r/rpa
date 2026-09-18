@@ -1,0 +1,45 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Workflows_InitRun" mva:VisualBasic.Settings="{x:Null}"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:ui="http://schemas.uipath.com/workflow/activities"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib"
+ xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_ProjectRoot" Type="InArgument(x:String)" />
+    <x:Property Name="out_RunId" Type="OutArgument(x:String)" />
+    <x:Property Name="out_Results" Type="OutArgument(sd:DataTable)" />
+    <x:Property Name="out_BasePortalUrl" Type="OutArgument(x:String)" />
+    <x:Property Name="out_DashboardUrl" Type="OutArgument(x:String)" />
+  </x:Members>
+  <Sequence DisplayName="Initialize campaign">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="runId" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtResults" />
+    </Sequence.Variables>
+    <Assign x:TypeArguments="x:String" DisplayName="Generate run id">
+      <Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="runId" /></OutArgument></Assign.To>
+      <Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="System.DateTime.UtcNow.ToString(&quot;yyyyMMdd-HHmmss&quot;)" /></InArgument></Assign.Value>
+    </Assign>
+    <ui:CreateDirectory DisplayName="Ensure output directory" Path="[System.IO.Path.Combine(in_ProjectRoot, &quot;Data&quot;, &quot;Output&quot;)]" />
+    <ui:CreateDirectory DisplayName="Ensure evidence directory" Path="[System.IO.Path.Combine(in_ProjectRoot, &quot;Evidence&quot;)]" />
+    <ui:InvokeCode DisplayName="Create results schema" Code="Dim columns As String() = &quot;run_id,scenario_id,scenario_name,fault_mode,expected_behavior,actual_behavior,verdict,records_before,records_after,data_integrity,duration_ms,exception_type,exception_message,evidence_file,notes&quot;.Split(&quot;,&quot;c)&#xA;dtResults = New System.Data.DataTable()&#xA;For Each columnName As String In columns&#xA;  dtResults.Columns.Add(columnName, GetType(String))&#xA;Next">
+      <ui:InvokeCode.Arguments>
+        <scg:Dictionary x:TypeArguments="x:String, Argument">
+          <OutArgument x:TypeArguments="sd:DataTable" x:Key="dtResults">[dtResults]</OutArgument>
+        </scg:Dictionary>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:AppendWriteCsvFile DisplayName="Initialize results CSV" FilePath="[System.IO.Path.Combine(in_ProjectRoot, &quot;Data&quot;, &quot;Output&quot;, &quot;results.csv&quot;)]" CsvAction="Write" AddHeaders="True">
+      <ui:AppendWriteCsvFile.DataTable><InArgument x:TypeArguments="sd:DataTable"><VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="dtResults" /></InArgument></ui:AppendWriteCsvFile.DataTable>
+    </ui:AppendWriteCsvFile>
+    <Assign x:TypeArguments="x:String" DisplayName="Set run id output"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="out_RunId" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="runId" /></InArgument></Assign.Value></Assign>
+    <Assign x:TypeArguments="sd:DataTable" DisplayName="Set results output"><Assign.To><OutArgument x:TypeArguments="sd:DataTable"><VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="out_Results" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="sd:DataTable"><VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="dtResults" /></InArgument></Assign.Value></Assign>
+    <Assign x:TypeArguments="x:String" DisplayName="Set portal URL"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="out_BasePortalUrl" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;http://localhost:8080/Support/Portal/index.html&quot;" /></InArgument></Assign.Value></Assign>
+    <Assign x:TypeArguments="x:String" DisplayName="Set dashboard URL"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="out_DashboardUrl" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;http://localhost:8080/Support/Dashboard/index.html&quot;" /></InArgument></Assign.Value></Assign>
+    <ui:LogMessage Level="Info" DisplayName="Log run start"><ui:LogMessage.Message><InArgument x:TypeArguments="x:Object"><VisualBasicValue x:TypeArguments="x:Object" ExpressionText="&quot;[AUTOCHAOS] Run started: &quot; &amp; runId" /></InArgument></ui:LogMessage.Message></ui:LogMessage>
+  </Sequence>
+</Activity>

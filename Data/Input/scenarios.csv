@@ -1,0 +1,8 @@
+scenario_id,enabled,scenario_name,fault_mode,expected_behavior,employee_id,employee_name,department,notes
+CHAOS-000,true,Baseline,none,SUCCESS,1001,Alice Demo,Engineering,Control run
+CHAOS-001,true,Unexpected popup,popup,RECOVERED_SUCCESS,1002,Bob Demo,Finance,Popup should be dismissed
+CHAOS-002,true,Slow submit,slow_submit,RECOVERED_SUCCESS,1003,Carol Demo,Operations,Bot should wait
+CHAOS-003,true,Button text drift,rename_button,RECOVERED_SUCCESS,1004,Dan Demo,Security,Selector should survive label change
+CHAOS-004,true,Submit button missing,missing_button,SAFE_FAIL,1005,Eve Demo,Legal,No record must be created
+CHAOS-005,true,Post-commit response failure,post_commit_error,SAFE_FAIL,1006,Frank Demo,Research,Expected to expose transaction uncertainty
+

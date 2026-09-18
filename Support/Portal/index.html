@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ACME Employee Operations</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark">AC</div>
+    <div>
+      <div class="eyebrow">ACME INTERNAL SYSTEMS</div>
+      <h1>Employee Operations</h1>
+    </div>
+    <div class="topbar-meta">
+      <span class="live-dot"></span>
+      DEV SIMULATOR
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="status-strip">
+      <div>
+        <span class="eyebrow">FAULT INJECTION ACTIVE</span>
+        <strong id="faultBadge">NONE</strong>
+      </div>
+      <div class="scenario-chip">Scenario <span id="scenarioLabel">CONTROL</span></div>
+      <div class="status-note">Local deterministic test target</div>
+    </section>
+
+    <section class="grid two-col">
+      <article class="card form-card">
+        <div class="card-heading">
+          <div>
+            <span class="eyebrow">WORKFLOW ACTION</span>
+            <h2>Create employee</h2>
+          </div>
+          <span class="icon-badge">+</span>
+        </div>
+        <p class="muted">Register a synthetic employee in the ACME operations directory.</p>
+        <form id="employeeForm" novalidate>
+          <label for="employeeId">Employee ID</label>
+          <input id="employeeId" name="employeeId" autocomplete="off" placeholder="e.g. 1001">
+          <label for="employeeName">Full name</label>
+          <input id="employeeName" name="employeeName" autocomplete="off" placeholder="e.g. Alice Demo">
+          <label for="department">Department</label>
+          <input id="department" name="department" autocomplete="off" placeholder="e.g. Engineering">
+          <button id="submitBtn" type="submit" aria-label="✦CREATE EMPLOYEE"><span class="button-icon">✦</span><span id="submitLabel">CREATE EMPLOYEE</span></button>
+        </form>
+        <div id="successBanner" class="banner success" role="status" hidden></div>
+        <div id="errorBanner" class="banner error" role="alert" hidden></div>
+      </article>
+
+      <article class="card state-card">
+        <div class="card-heading">
+          <div>
+            <span class="eyebrow">SYSTEM STATE</span>
+            <h2>Portal telemetry</h2>
+          </div>
+          <span class="health-pill"><span class="live-dot"></span>LOCAL</span>
+        </div>
+        <div class="metric-grid">
+          <div class="metric"><span>Records</span><strong id="recordCount">0</strong><small>stored locally</small></div>
+          <div class="metric"><span>Last action</span><strong id="lastAction">Ready</strong><small>awaiting input</small></div>
+        </div>
+        <div class="state-detail"><span class="detail-dot amber"></span><span>Fault mode is controlled by the URL query string.</span></div>
+        <div class="state-detail"><span class="detail-dot green"></span><span>All records are synthetic demo data.</span></div>
+      </article>
+    </section>
+
+    <section class="card records-card">
+      <div class="card-heading records-heading">
+        <div>
+          <span class="eyebrow">AUDIT VIEW</span>
+          <h2>Employee records</h2>
+        </div>
+        <span class="muted" id="recordsSummary">No records yet</span>
+      </div>
+      <div class="table-wrap">
+        <table id="employeeTable">
+          <thead><tr><th>ID</th><th>Name</th><th>Department</th><th>Created</th><th>State</th></tr></thead>
+          <tbody id="employeeTableBody"><tr class="empty-row"><td colspan="5">No employee records have been created.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="chaosPopup" class="modal-backdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+      <div class="modal-warning">!</div>
+      <span class="eyebrow">UNEXPECTED SYSTEM MESSAGE</span>
+      <h2 id="popupTitle">Session notice</h2>
+      <p>A background policy update requires acknowledgement before you continue.</p>
+      <button id="closePopupBtn" type="button" class="secondary-button">DISMISS NOTICE</button>
+    </div>
+  </div>
+
+  <script src="app.js?v=20260918-4"></script>
+</body>
+</html>
