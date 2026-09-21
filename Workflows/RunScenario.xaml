@@ -1,21 +1,36 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Workflows_RunScenario" mva:VisualBasic.Settings="{x:Null}"
- xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
- xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
- xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
- xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
- xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
- xmlns:ui="http://schemas.uipath.com/workflow/activities"
- xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib"
- xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common"
- xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib"
- xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Workflows_RunScenario" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_Scenario" Type="InArgument(sd:DataRow)" />
     <x:Property Name="in_RunId" Type="InArgument(x:String)" />
     <x:Property Name="in_BasePortalUrl" Type="InArgument(x:String)" />
     <x:Property Name="io_Results" Type="InOutArgument(sd:DataTable)" />
   </x:Members>
-  <Sequence DisplayName="Run isolated scenario">
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Run isolated scenario" sap2010:WorkflowViewState.IdRef="Sequence_7">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="scenarioId" />
       <Variable x:TypeArguments="x:String" Name="scenarioName" />
@@ -39,87 +54,92 @@
       <Variable x:TypeArguments="x:Int64" Name="startTicks" />
       <Variable x:TypeArguments="x:String" Name="durationMs" />
     </Sequence.Variables>
-    <Assign x:TypeArguments="x:String" DisplayName="Read scenario id"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="scenarioId" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Scenario(&quot;scenario_id&quot;).ToString.Trim" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Read scenario name"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="scenarioName" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Scenario(&quot;scenario_name&quot;).ToString.Trim" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Read fault mode"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="faultMode" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Scenario(&quot;fault_mode&quot;).ToString.Trim" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Read expected behavior"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="expectedBehavior" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Scenario(&quot;expected_behavior&quot;).ToString.Trim" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Read employee id"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="employeeId" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Scenario(&quot;employee_id&quot;).ToString.Trim" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Read employee name"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="employeeName" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Scenario(&quot;employee_name&quot;).ToString.Trim" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Read department"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="department" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Scenario(&quot;department&quot;).ToString.Trim" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Read notes"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="notes" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Scenario(&quot;notes&quot;).ToString.Trim" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Build target URL"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="targetUrl" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_BasePortalUrl &amp; &quot;?fault=&quot; &amp; faultMode &amp; &quot;&amp;reset=1&amp;scenario=&quot; &amp; scenarioId" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Build evidence path"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="evidencePath" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="System.IO.Path.Combine(System.Environment.CurrentDirectory, &quot;Evidence&quot;, in_RunId &amp; &quot;_&quot; &amp; scenarioId &amp; &quot;_&quot; &amp; If(faultMode = &quot;none&quot;, &quot;SUCCESS&quot;, If(faultMode = &quot;post_commit_error&quot;, &quot;UNSAFE_FAIL&quot;, If(faultMode = &quot;missing_button&quot;, &quot;SAFE_FAIL&quot;, &quot;RECOVERED_SUCCESS&quot;))) &amp; &quot;.png&quot;)" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:Int32" DisplayName="Set records before"><Assign.To><OutArgument x:TypeArguments="x:Int32"><VisualBasicReference x:TypeArguments="x:Int32" ExpressionText="recordsBefore" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Int32"><VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="0" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:Int64" DisplayName="Start timer"><Assign.To><OutArgument x:TypeArguments="x:Int64"><VisualBasicReference x:TypeArguments="x:Int64" ExpressionText="startTicks" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Int64"><VisualBasicValue x:TypeArguments="x:Int64" ExpressionText="System.DateTime.UtcNow.Ticks" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:Boolean" DisplayName="Initialize visible success"><Assign.To><OutArgument x:TypeArguments="x:Boolean"><VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="visibleSuccess" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Boolean"><VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="False" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:Int32" DisplayName="Initialize records after"><Assign.To><OutArgument x:TypeArguments="x:Int32"><VisualBasicReference x:TypeArguments="x:Int32" ExpressionText="recordsAfter" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:Int32"><VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="0" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Initialize exception type"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="exceptionType" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;&quot;" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Initialize exception message"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="exceptionMessage" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;&quot;" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Initialize status"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="statusText" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;&quot;" /></InArgument></Assign.Value></Assign>
-    <TryCatch DisplayName="Isolate scenario execution">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign x:TypeArguments="x:String" DisplayName="Read scenario id" sap2010:WorkflowViewState.IdRef="Assign`1_1" To="[scenarioId]" Value="[in_Scenario(&quot;scenario_id&quot;).ToString.Trim]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Read scenario name" sap2010:WorkflowViewState.IdRef="Assign`1_2" To="[scenarioName]" Value="[in_Scenario(&quot;scenario_name&quot;).ToString.Trim]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Read fault mode" sap2010:WorkflowViewState.IdRef="Assign`1_3" To="[faultMode]" Value="[in_Scenario(&quot;fault_mode&quot;).ToString.Trim]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Read expected behavior" sap2010:WorkflowViewState.IdRef="Assign`1_4" To="[expectedBehavior]" Value="[in_Scenario(&quot;expected_behavior&quot;).ToString.Trim]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Read employee id" sap2010:WorkflowViewState.IdRef="Assign`1_5" To="[employeeId]" Value="[in_Scenario(&quot;employee_id&quot;).ToString.Trim]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Read employee name" sap2010:WorkflowViewState.IdRef="Assign`1_6" To="[employeeName]" Value="[in_Scenario(&quot;employee_name&quot;).ToString.Trim]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Read department" sap2010:WorkflowViewState.IdRef="Assign`1_7" To="[department]" Value="[in_Scenario(&quot;department&quot;).ToString.Trim]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Read notes" sap2010:WorkflowViewState.IdRef="Assign`1_8" To="[notes]" Value="[in_Scenario(&quot;notes&quot;).ToString.Trim]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Build target URL" sap2010:WorkflowViewState.IdRef="Assign`1_9" To="[targetUrl]" Value="[in_BasePortalUrl &amp; &quot;?fault=&quot; &amp; faultMode &amp; &quot;&amp;reset=1&amp;scenario=&quot; &amp; scenarioId]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Build evidence path" sap2010:WorkflowViewState.IdRef="Assign`1_10" To="[evidencePath]" Value="[System.IO.Path.Combine(System.Environment.CurrentDirectory, &quot;Evidence&quot;, in_RunId &amp; &quot;_&quot; &amp; scenarioId &amp; &quot;_&quot; &amp; If(faultMode = &quot;none&quot;, &quot;SUCCESS&quot;, If(faultMode = &quot;post_commit_error&quot;, &quot;UNSAFE_FAIL&quot;, If(faultMode = &quot;missing_button&quot;, &quot;SAFE_FAIL&quot;, &quot;RECOVERED_SUCCESS&quot;))) &amp; &quot;.png&quot;)]" />
+    <Assign x:TypeArguments="x:Int32" DisplayName="Set records before" sap2010:WorkflowViewState.IdRef="Assign`1_11" To="[recordsBefore]" Value="[0]" />
+    <Assign x:TypeArguments="x:Int64" DisplayName="Start timer" sap2010:WorkflowViewState.IdRef="Assign`1_12" To="[startTicks]" Value="[System.DateTime.UtcNow.Ticks]" />
+    <Assign x:TypeArguments="x:Boolean" DisplayName="Initialize visible success" sap2010:WorkflowViewState.IdRef="Assign`1_13" To="[visibleSuccess]" Value="[False]" />
+    <Assign x:TypeArguments="x:Int32" DisplayName="Initialize records after" sap2010:WorkflowViewState.IdRef="Assign`1_14" To="[recordsAfter]" Value="[0]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Initialize exception type" sap2010:WorkflowViewState.IdRef="Assign`1_15" To="[exceptionType]" Value="[&quot;&quot;]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Initialize exception message" sap2010:WorkflowViewState.IdRef="Assign`1_16" To="[exceptionMessage]" Value="[&quot;&quot;]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Initialize status" sap2010:WorkflowViewState.IdRef="Assign`1_17" To="[statusText]" Value="[&quot;&quot;]" />
+    <TryCatch DisplayName="Isolate scenario execution" sap2010:WorkflowViewState.IdRef="TryCatch_1">
       <TryCatch.Try>
-        <Sequence DisplayName="Try scenario">
-          <ui:InvokeWorkflowFile DisplayName="Process employee" WorkflowFileName="Workflows\ProcessEmployee.xaml">
+        <Sequence DisplayName="Try scenario" sap2010:WorkflowViewState.IdRef="Sequence_1">
+          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" DisplayName="Process employee" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Workflows\ProcessEmployee.xaml">
             <ui:InvokeWorkflowFile.Arguments>
-              <scg:Dictionary x:TypeArguments="x:String, Argument">
-                <InArgument x:TypeArguments="x:String" x:Key="in_TargetUrl">[targetUrl]</InArgument>
-                <InArgument x:TypeArguments="x:String" x:Key="in_EmployeeId">[employeeId]</InArgument>
-                <InArgument x:TypeArguments="x:String" x:Key="in_EmployeeName">[employeeName]</InArgument>
-                <InArgument x:TypeArguments="x:String" x:Key="in_Department">[department]</InArgument>
-                <InArgument x:TypeArguments="x:String" x:Key="in_FaultMode">[faultMode]</InArgument>
-                <InArgument x:TypeArguments="x:String" x:Key="in_EvidencePath">[evidencePath]</InArgument>
-                <OutArgument x:TypeArguments="x:Boolean" x:Key="out_VisibleSuccess">[visibleSuccess]</OutArgument>
-                <OutArgument x:TypeArguments="x:String" x:Key="out_StatusText">[statusText]</OutArgument>
-                <OutArgument x:TypeArguments="x:Int32" x:Key="out_RecordCount">[recordsAfter]</OutArgument>
-              </scg:Dictionary>
+              <InArgument x:TypeArguments="x:String" x:Key="in_TargetUrl">[targetUrl]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_EmployeeId">[employeeId]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_EmployeeName">[employeeName]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_Department">[department]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_FaultMode">[faultMode]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="in_EvidencePath">[evidencePath]</InArgument>
+              <OutArgument x:TypeArguments="x:Boolean" x:Key="out_VisibleSuccess">[visibleSuccess]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="out_StatusText">[statusText]</OutArgument>
+              <OutArgument x:TypeArguments="x:Int32" x:Key="out_RecordCount">[recordsAfter]</OutArgument>
             </ui:InvokeWorkflowFile.Arguments>
           </ui:InvokeWorkflowFile>
         </Sequence>
       </TryCatch.Try>
       <TryCatch.Catches>
-        <Catch x:TypeArguments="s:Exception">
+        <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
           <ActivityAction x:TypeArguments="s:Exception">
-            <ActivityAction.Argument><DelegateInArgument x:TypeArguments="s:Exception" Name="exception" /></ActivityAction.Argument>
-            <Sequence DisplayName="Catch scenario exception">
-              <Assign x:TypeArguments="x:String" DisplayName="Capture exception type"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="exceptionType" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="exception.GetType().Name" /></InArgument></Assign.Value></Assign>
-              <Assign x:TypeArguments="x:String" DisplayName="Capture exception message"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="exceptionMessage" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="exception.Message" /></InArgument></Assign.Value></Assign>
-              <ui:LogMessage Level="Warn" DisplayName="Log scenario exception"><ui:LogMessage.Message><InArgument x:TypeArguments="x:Object"><VisualBasicValue x:TypeArguments="x:Object" ExpressionText="&quot;[AUTOCHAOS] &quot; &amp; scenarioId &amp; &quot; exception: &quot; &amp; exceptionMessage" /></InArgument></ui:LogMessage.Message></ui:LogMessage>
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Catch scenario exception" sap2010:WorkflowViewState.IdRef="Sequence_2">
+              <Assign x:TypeArguments="x:String" DisplayName="Capture exception type" sap2010:WorkflowViewState.IdRef="Assign`1_18" To="[exceptionType]" Value="[exception.GetType().Name]" />
+              <Assign x:TypeArguments="x:String" DisplayName="Capture exception message" sap2010:WorkflowViewState.IdRef="Assign`1_19" To="[exceptionMessage]" Value="[exception.Message]" />
+              <ui:LogMessage DisplayName="Log scenario exception" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Warn" Message="[&quot;[AUTOCHAOS] &quot; &amp; scenarioId &amp; &quot; exception: &quot; &amp; exceptionMessage]" />
             </Sequence>
           </ActivityAction>
         </Catch>
       </TryCatch.Catches>
     </TryCatch>
-    <Assign x:TypeArguments="x:String" DisplayName="Calculate duration"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="durationMs" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="CStr((System.DateTime.UtcNow.Ticks - startTicks) \ 10000)" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Default classification"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="actualBehavior" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;UNSAFE_FAIL&quot;" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Default verdict"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="verdict" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;FAIL&quot;" /></InArgument></Assign.Value></Assign>
-    <Assign x:TypeArguments="x:String" DisplayName="Default integrity"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="dataIntegrity" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;FAIL&quot;" /></InArgument></Assign.Value></Assign>
-    <If DisplayName="Classify successful transaction">
-      <If.Condition><InArgument x:TypeArguments="x:Boolean"><VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="visibleSuccess AndAlso recordsAfter = recordsBefore + 1 AndAlso exceptionType = &quot;&quot;" /></InArgument></If.Condition>
+    <Assign x:TypeArguments="x:String" DisplayName="Calculate duration" sap2010:WorkflowViewState.IdRef="Assign`1_20" To="[durationMs]" Value="[CStr((System.DateTime.UtcNow.Ticks - startTicks) \ 10000)]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Default classification" sap2010:WorkflowViewState.IdRef="Assign`1_21" To="[actualBehavior]" Value="[&quot;UNSAFE_FAIL&quot;]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Default verdict" sap2010:WorkflowViewState.IdRef="Assign`1_22" To="[verdict]" Value="[&quot;FAIL&quot;]" />
+    <Assign x:TypeArguments="x:String" DisplayName="Default integrity" sap2010:WorkflowViewState.IdRef="Assign`1_23" To="[dataIntegrity]" Value="[&quot;FAIL&quot;]" />
+    <If Condition="[visibleSuccess AndAlso recordsAfter = recordsBefore + 1 AndAlso exceptionType = &quot;&quot;]" DisplayName="Classify successful transaction" sap2010:WorkflowViewState.IdRef="If_2">
       <If.Then>
-        <Sequence DisplayName="Success classification">
-          <Assign x:TypeArguments="x:String" DisplayName="Set actual success"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="actualBehavior" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="If(faultMode = &quot;none&quot;, &quot;SUCCESS&quot;, &quot;RECOVERED_SUCCESS&quot;)" /></InArgument></Assign.Value></Assign>
-          <Assign x:TypeArguments="x:String" DisplayName="Set success verdict"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="verdict" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;PASS&quot;" /></InArgument></Assign.Value></Assign>
-          <Assign x:TypeArguments="x:String" DisplayName="Set success integrity"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="dataIntegrity" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;PASS&quot;" /></InArgument></Assign.Value></Assign>
+        <Sequence DisplayName="Success classification" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <Assign x:TypeArguments="x:String" DisplayName="Set actual success" sap2010:WorkflowViewState.IdRef="Assign`1_24" To="[actualBehavior]" Value="[If(faultMode = &quot;none&quot;, &quot;SUCCESS&quot;, &quot;RECOVERED_SUCCESS&quot;)]" />
+          <Assign x:TypeArguments="x:String" DisplayName="Set success verdict" sap2010:WorkflowViewState.IdRef="Assign`1_25" To="[verdict]" Value="[&quot;PASS&quot;]" />
+          <Assign x:TypeArguments="x:String" DisplayName="Set success integrity" sap2010:WorkflowViewState.IdRef="Assign`1_26" To="[dataIntegrity]" Value="[&quot;PASS&quot;]" />
         </Sequence>
       </If.Then>
       <If.Else>
-        <Sequence DisplayName="Check safe failure">
-          <If DisplayName="Classify safe failure">
-            <If.Condition><InArgument x:TypeArguments="x:Boolean"><VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="expectedBehavior = &quot;SAFE_FAIL&quot; AndAlso Not visibleSuccess AndAlso recordsAfter = recordsBefore AndAlso (exceptionType &lt;&gt; &quot;&quot; OrElse statusText &lt;&gt; &quot;&quot;)" /></InArgument></If.Condition>
+        <Sequence DisplayName="Check safe failure" sap2010:WorkflowViewState.IdRef="Sequence_6">
+          <If Condition="[expectedBehavior = &quot;SAFE_FAIL&quot; AndAlso Not visibleSuccess AndAlso recordsAfter = recordsBefore AndAlso (exceptionType &lt;&gt; &quot;&quot; OrElse statusText &lt;&gt; &quot;&quot;)]" DisplayName="Classify safe failure" sap2010:WorkflowViewState.IdRef="If_1">
             <If.Then>
-              <Sequence DisplayName="Safe failure classification">
-                <Assign x:TypeArguments="x:String" DisplayName="Set safe failure"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="actualBehavior" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;SAFE_FAIL&quot;" /></InArgument></Assign.Value></Assign>
-                <Assign x:TypeArguments="x:String" DisplayName="Set safe failure verdict"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="verdict" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;PASS&quot;" /></InArgument></Assign.Value></Assign>
-                <Assign x:TypeArguments="x:String" DisplayName="Set safe failure integrity"><Assign.To><OutArgument x:TypeArguments="x:String"><VisualBasicReference x:TypeArguments="x:String" ExpressionText="dataIntegrity" /></OutArgument></Assign.To><Assign.Value><InArgument x:TypeArguments="x:String"><VisualBasicValue x:TypeArguments="x:String" ExpressionText="&quot;PASS&quot;" /></InArgument></Assign.Value></Assign>
+              <Sequence DisplayName="Safe failure classification" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                <Assign x:TypeArguments="x:String" DisplayName="Set safe failure" sap2010:WorkflowViewState.IdRef="Assign`1_27" To="[actualBehavior]" Value="[&quot;SAFE_FAIL&quot;]" />
+                <Assign x:TypeArguments="x:String" DisplayName="Set safe failure verdict" sap2010:WorkflowViewState.IdRef="Assign`1_28" To="[verdict]" Value="[&quot;PASS&quot;]" />
+                <Assign x:TypeArguments="x:String" DisplayName="Set safe failure integrity" sap2010:WorkflowViewState.IdRef="Assign`1_29" To="[dataIntegrity]" Value="[&quot;PASS&quot;]" />
               </Sequence>
             </If.Then>
-            <If.Else><Sequence DisplayName="Unsafe failure classification" /></If.Else>
+            <If.Else>
+              <Sequence DisplayName="Unsafe failure classification" sap2010:WorkflowViewState.IdRef="Sequence_5" />
+            </If.Else>
           </If>
         </Sequence>
       </If.Else>
     </If>
-    <ui:AddDataRow DisplayName="Append scenario result" ArrayRow="[New Object(){in_RunId, scenarioId, scenarioName, faultMode, expectedBehavior, actualBehavior, verdict, recordsBefore.ToString, recordsAfter.ToString, dataIntegrity, durationMs, exceptionType, exceptionMessage, evidencePath, notes}]" DataTable="[io_Results]" />
-    <ui:AppendWriteCsvFile DisplayName="Write live results" FilePath="[System.IO.Path.Combine(System.Environment.CurrentDirectory, &quot;Data&quot;, &quot;Output&quot;, &quot;results.csv&quot;)]" CsvAction="Write" AddHeaders="True"><ui:AppendWriteCsvFile.DataTable><InArgument x:TypeArguments="sd:DataTable"><VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="io_Results" /></InArgument></ui:AppendWriteCsvFile.DataTable></ui:AppendWriteCsvFile>
-    <ui:LogMessage Level="Info" DisplayName="Log scenario result"><ui:LogMessage.Message><InArgument x:TypeArguments="x:Object"><VisualBasicValue x:TypeArguments="x:Object" ExpressionText="&quot;[AUTOCHAOS] &quot; &amp; scenarioId &amp; &quot; =&gt; &quot; &amp; actualBehavior &amp; &quot; / &quot; &amp; verdict" /></InArgument></ui:LogMessage.Message></ui:LogMessage>
+    <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[New Object(){in_RunId, scenarioId, scenarioName, faultMode, expectedBehavior, actualBehavior, verdict, recordsBefore.ToString, recordsAfter.ToString, dataIntegrity, durationMs, exceptionType, exceptionMessage, evidencePath, notes}]" DataTable="[io_Results]" DisplayName="Append scenario result" sap2010:WorkflowViewState.IdRef="AddDataRow_1" />
+    <ui:AppendWriteCsvFile PathResource="{x:Null}" AddHeaders="True" CsvAction="Write" DataTable="[io_Results]" Delimitator="Comma" DelimitatorForViewModel="Comma" DisplayName="Write live results" FilePath="[System.IO.Path.Combine(System.Environment.CurrentDirectory, &quot;Data&quot;, &quot;Output&quot;, &quot;results.csv&quot;)]" sap2010:WorkflowViewState.IdRef="AppendWriteCsvFile_1" ShouldQuote="True" />
+    <ui:LogMessage DisplayName="Log scenario result" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;[AUTOCHAOS] &quot; &amp; scenarioId &amp; &quot; =&gt; &quot; &amp; actualBehavior &amp; &quot; / &quot; &amp; verdict]" />
   </Sequence>
 </Activity>

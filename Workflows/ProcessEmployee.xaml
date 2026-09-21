@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap2010" x:Class="Workflows_ProcessEmployee" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Drawing;assembly=System.Drawing.Common" xmlns:sd1="clr-namespace:System.Drawing;assembly=System.Drawing.Primitives" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Workflows_ProcessEmployee" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Drawing;assembly=System.Drawing.Common" xmlns:sd1="clr-namespace:System.Drawing;assembly=System.Drawing.Primitives" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_TargetUrl" Type="InArgument(x:String)" />
     <x:Property Name="in_EmployeeId" Type="InArgument(x:String)" />
@@ -13,26 +13,53 @@
   <VisualBasic.Settings>
     <x:Null />
   </VisualBasic.Settings>
-  <Sequence DisplayName="Process employee">
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>GlobalConstantsNamespace</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Process employee" sap2010:WorkflowViewState.IdRef="Sequence_10">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="recordCountText" />
       <Variable x:TypeArguments="x:String" Name="statusText" />
       <Variable x:TypeArguments="x:Boolean" Name="successExists" />
     </Sequence.Variables>
-    <Assign x:TypeArguments="x:Boolean" DisplayName="Initialize success state" To="[out_VisibleSuccess]" Value="[False]" />
-    <Assign x:TypeArguments="x:Int32" DisplayName="Initialize record count" To="[out_RecordCount]" Value="[0]" />
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign x:TypeArguments="x:Boolean" DisplayName="Initialize success state" sap2010:WorkflowViewState.IdRef="Assign`1_1" To="[out_VisibleSuccess]" Value="[False]" />
+    <Assign x:TypeArguments="x:Int32" DisplayName="Initialize record count" sap2010:WorkflowViewState.IdRef="Assign`1_2" To="[out_RecordCount]" Value="[0]" />
     <uix:NApplicationCard AttachMode="ByInstance" DisplayName="TODO Indicate — ACME Employee Portal" HealingAgentBehavior="Job" sap2010:WorkflowViewState.IdRef="NApplicationCard_Portal" ScopeGuid="d6116550-8a60-45bd-a53b-33fd6c5fb249" Version="V2">
       <uix:NApplicationCard.Body>
         <ActivityAction x:TypeArguments="x:Object">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Portal interaction">
-            <uix:NGoToUrl DisplayName="TODO Indicate — Navigate to portal" Url="[in_TargetUrl]" Version="V5" />
-            <Delay DisplayName="Wait for portal fault rendering" Duration="[System.TimeSpan.FromSeconds(1.5)]" />
+          <Sequence DisplayName="Portal interaction" sap2010:WorkflowViewState.IdRef="Sequence_9">
+            <uix:NGoToUrl DisplayName="TODO Indicate — Navigate to portal" sap2010:WorkflowViewState.IdRef="NGoToUrl_1" Url="[in_TargetUrl]" Version="V5" />
+            <Delay DisplayName="Wait for portal fault rendering" Duration="[System.TimeSpan.FromSeconds(1.5)]" sap2010:WorkflowViewState.IdRef="Delay_1" />
             <uix:NCheckState DisplayName="TODO Indicate — Check and close chaos popup" HealingAgentBehavior="Disabled" sap2010:WorkflowViewState.IdRef="NCheckState_Popup" Version="V5">
               <uix:NCheckState.IfExists>
-                <Sequence DisplayName="Popup exists">
+                <Sequence DisplayName="Popup exists" sap2010:WorkflowViewState.IdRef="Sequence_1">
                   <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="TODO Indicate — Close popup" HealingAgentBehavior="SameAsCard" sap2010:WorkflowViewState.IdRef="NClick_ClosePopup" KeyModifiers="None" MouseButton="Left" Version="V5">
                     <uix:NClick.Target>
                       <uix:TargetAnchorable DesignTimeRectangle="9, 187, 0, 0" ElementType="Button" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='closePopupBtn' tag='BUTTON' /&gt;" Guid="515f0aa4-43ad-4eda-8d69-bbcf20ad3e73" ScopeSelectorArgument="&lt;html app='chrome.exe' title='ACME Employee Operations' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
@@ -41,7 +68,7 @@
                 </Sequence>
               </uix:NCheckState.IfExists>
               <uix:NCheckState.IfNotExists>
-                <Sequence DisplayName="No popup" />
+                <Sequence DisplayName="No popup" sap2010:WorkflowViewState.IdRef="Sequence_2" />
               </uix:NCheckState.IfNotExists>
               <uix:NCheckState.Target>
                 <uix:TargetAnchorable DesignTimeRectangle="707, 240, 487, 362" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl aria-labelledby='popupTitle' aria-role='dialog' tag='DIV' /&gt;" Guid="f9f8b8f8-f71f-47b3-9ca3-d9d524b79910" InformativeScreenshot="99d20185922e057d37d25e54cf880907.jpg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='ACME Employee Operations' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
@@ -73,7 +100,7 @@
               <uix:NTypeInto.Target>
                 <uix:TargetAnchorable DesignTimeRectangle="285, 829, 698, 55" ElementType="InputBox" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='department' /&gt;" Guid="c04fcb58-03ed-464e-ae5e-ebbe3168c7be" InformativeScreenshot="492a344063a6bae476cbd46c40410a49.jpg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='ACME Employee Operations' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive">
                   <uix:TargetAnchorable.Anchors>
-                    <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                    <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
                       <uix:Target DesignTimeRectangle="276, 610, 698, 22" ElementType="Text" FuzzySelectorArgument="&lt;webctrl aaname='Department' tag='LABEL' type='' class='' matching:aaname='fuzzy' fuzzylevel:aaname='0.0' matching:class='fuzzy' fuzzylevel:class='0.0' check:text='Department' /&gt;" Guid="cc0821b0-beb3-4cf1-9888-c5ac2e8553c1" SearchSteps="FuzzySelector" />
                     </scg:List>
                   </uix:TargetAnchorable.Anchors>
@@ -82,28 +109,28 @@
             </uix:NTypeInto>
             <uix:NCheckState DisplayName="Check submit button availability" HealingAgentBehavior="Disabled" sap2010:WorkflowViewState.IdRef="NCheckState_Submit" Version="V5">
               <uix:NCheckState.IfExists>
-                <Sequence DisplayName="Submit button exists">
+                <Sequence DisplayName="Submit button exists" sap2010:WorkflowViewState.IdRef="Sequence_5">
                   <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click submit button" HealingAgentBehavior="SameAsCard" sap2010:WorkflowViewState.IdRef="NClick_Submit" KeyModifiers="None" MouseButton="Left" Timeout="30" Version="V5">
                     <uix:NClick.Target>
                       <uix:TargetAnchorable DesignTimeRectangle="285, 914, 698, 58" ElementType="Button" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='submitBtn' /&gt;" Guid="42c85b72-af0f-4673-b21a-436cd5485a28" InformativeScreenshot="72c876e856b1cd4e55896075f94a2bee.jpg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='ACME Employee Operations' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
                     </uix:NClick.Target>
                   </uix:NClick>
-                  <Delay DisplayName="Wait for submit response" Duration="[System.TimeSpan.FromSeconds(1.5)]" />
-                  <If Condition="[in_FaultMode = &quot;slow_submit&quot;]" DisplayName="Wait for slow submit response">
+                  <Delay DisplayName="Wait for submit response" Duration="[System.TimeSpan.FromSeconds(1.5)]" sap2010:WorkflowViewState.IdRef="Delay_2" />
+                  <If Condition="[in_FaultMode = &quot;slow_submit&quot;]" DisplayName="Wait for slow submit response" sap2010:WorkflowViewState.IdRef="If_1">
                     <If.Then>
-                      <Sequence DisplayName="Slow submit wait">
-                        <Delay DisplayName="Wait for portal commit" Duration="[System.TimeSpan.FromSeconds(3.5)]" />
+                      <Sequence DisplayName="Slow submit wait" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                        <Delay DisplayName="Wait for portal commit" Duration="[System.TimeSpan.FromSeconds(3.5)]" sap2010:WorkflowViewState.IdRef="Delay_3" />
                       </Sequence>
                     </If.Then>
                     <If.Else>
-                      <Sequence DisplayName="No slow submit wait" />
+                      <Sequence DisplayName="No slow submit wait" sap2010:WorkflowViewState.IdRef="Sequence_4" />
                     </If.Else>
                   </If>
                 </Sequence>
               </uix:NCheckState.IfExists>
               <uix:NCheckState.IfNotExists>
-                <Sequence DisplayName="Submit button missing">
-                  <Assign x:TypeArguments="x:String" DisplayName="Record missing submit" To="[statusText]" Value="[&quot;Submit button missing&quot;]" />
+                <Sequence DisplayName="Submit button missing" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                  <Assign x:TypeArguments="x:String" DisplayName="Record missing submit" sap2010:WorkflowViewState.IdRef="Assign`1_3" To="[statusText]" Value="[&quot;Submit button missing&quot;]" />
                 </Sequence>
               </uix:NCheckState.IfNotExists>
               <uix:NCheckState.Target>
@@ -122,22 +149,22 @@
             </uix:NGetText>
             <uix:NCheckState DisplayName="TODO Indicate — Verify success banner" HealingAgentBehavior="Disabled" sap2010:WorkflowViewState.IdRef="NCheckState_Success" Version="V5">
               <uix:NCheckState.IfExists>
-                <Sequence DisplayName="Success visible">
-                  <Assign x:TypeArguments="x:Boolean" DisplayName="Mark success" To="[successExists]" Value="[True]" />
+                <Sequence DisplayName="Success visible" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                  <Assign x:TypeArguments="x:Boolean" DisplayName="Mark success" sap2010:WorkflowViewState.IdRef="Assign`1_4" To="[successExists]" Value="[True]" />
                 </Sequence>
               </uix:NCheckState.IfExists>
               <uix:NCheckState.IfNotExists>
-                <Sequence DisplayName="Success not visible">
-                  <Assign x:TypeArguments="x:Boolean" DisplayName="Mark failure" To="[successExists]" Value="[False]" />
+                <Sequence DisplayName="Success not visible" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                  <Assign x:TypeArguments="x:Boolean" DisplayName="Mark failure" sap2010:WorkflowViewState.IdRef="Assign`1_5" To="[successExists]" Value="[False]" />
                 </Sequence>
               </uix:NCheckState.IfNotExists>
               <uix:NCheckState.Target>
                 <uix:TargetAnchorable DesignTimeRectangle="276, 803, 698, 54" ElementType="Text" ElementVisibilityArgument="Interactive" FullSelectorArgument="&lt;webctrl id='successBanner' tag='DIV' /&gt;" Guid="c3214e96-32d4-4c5b-9a38-37cc6bc2ce24" InformativeScreenshot="7150e32b031c47b16235ceec6cdc914d.jpg" ScopeSelectorArgument="&lt;html app='chrome.exe' title='ACME Employee Operations' /&gt;" SearchSteps="Selector" Version="V6" WaitForReadyArgument="Interactive" />
               </uix:NCheckState.Target>
             </uix:NCheckState>
-            <Assign x:TypeArguments="x:Boolean" DisplayName="Publish success evidence" To="[out_VisibleSuccess]" Value="[successExists]" />
-            <Assign x:TypeArguments="x:String" DisplayName="Publish status text" To="[out_StatusText]" Value="[statusText]" />
-            <Assign x:TypeArguments="x:Int32" DisplayName="Publish record count" To="[out_RecordCount]" Value="[System.Int32.Parse(recordCountText.Trim)]" />
+            <Assign x:TypeArguments="x:Boolean" DisplayName="Publish success evidence" sap2010:WorkflowViewState.IdRef="Assign`1_6" To="[out_VisibleSuccess]" Value="[successExists]" />
+            <Assign x:TypeArguments="x:String" DisplayName="Publish status text" sap2010:WorkflowViewState.IdRef="Assign`1_7" To="[out_StatusText]" Value="[statusText]" />
+            <Assign x:TypeArguments="x:Int32" DisplayName="Publish record count" sap2010:WorkflowViewState.IdRef="Assign`1_8" To="[out_RecordCount]" Value="[System.Int32.Parse(recordCountText.Trim)]" />
             <uix:NTakeScreenshot DisplayName="TODO Indicate — Capture scenario evidence" FileName="[in_EvidencePath]" FileNameMode="None" HealingAgentBehavior="SameAsCard" sap2010:WorkflowViewState.IdRef="NTakeScreenshot_Evidence" Version="V5" />
           </Sequence>
         </ActivityAction>

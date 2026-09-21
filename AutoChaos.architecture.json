@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "AutoChaos RPA resilience campaign",
+    "output": "AutoChaos-architecture.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/suhos-r/rpa.git",
+      "provider": "github",
+      "revision": "b3930759d3c2032bd3f28ae40a005483a6f0b2f4",
+      "link_mode": "web"
+    },
+    "views": [
+      { "id": "campaign-path", "label": "Campaign path", "focus": ["operator", "scenario-input", "main", "scenario-runner", "employee-processor", "portal"], "note": "Follow one enabled scenario from CSV input through UiPath browser automation." },
+      { "id": "fault-and-state", "label": "Fault and state", "focus": ["employee-processor", "portal", "browser-storage", "evidence-store"], "note": "See where injected portal faults change browser state and evidence." },
+      { "id": "reporting", "label": "Reporting", "focus": ["scenario-runner", "finalizer", "results-store", "dashboard"], "note": "Trace live and final results into the local dashboard." }
+    ]
+  },
+  "components": [
+    { "id": "operator", "type": "external", "label": "Operator", "sublabel": "UiPath Robot", "pos": [30, 430], "size": [130, 64], "sources": [{ "path": "README.md", "label": "run entrypoint" }] },
+    { "id": "scenario-input", "type": "database", "label": "Scenario CSV", "sublabel": "Data/Input/scenarios.csv", "pos": [190, 430], "size": [160, 64], "sources": [{ "path": "Data/Input/scenarios.csv", "label": "enabled scenarios" }] },
+    { "id": "main", "type": "backend", "label": "Main.xaml", "sublabel": "campaign orchestration", "pos": [390, 430], "size": [150, 64], "tag": "Windows + VB", "sources": [{ "path": "Main.xaml", "label": "entrypoint" }] },
+    { "id": "init-run", "type": "backend", "label": "InitRun.xaml", "sublabel": "run setup + folders", "pos": [390, 140], "size": [150, 64], "sources": [{ "path": "Workflows/InitRun.xaml", "label": "initialization" }] },
+    { "id": "scenario-runner", "type": "backend", "label": "RunScenario.xaml", "sublabel": "isolated Try/Catch", "pos": [580, 430], "size": [170, 64], "tag": "per-scenario", "sources": [{ "path": "Workflows/RunScenario.xaml", "label": "scenario boundary" }] },
+    { "id": "employee-processor", "type": "backend", "label": "ProcessEmployee.xaml", "sublabel": "UIA business flow", "pos": [800, 430], "size": [185, 64], "tag": "TODO Indicate", "sources": [{ "path": "Workflows/ProcessEmployee.xaml", "label": "portal automation" }] },
+    { "id": "portal", "type": "frontend", "label": "ACME Employee Portal", "sublabel": "localhost:8080 / static UI", "pos": [1040, 430], "size": [180, 64], "sources": [{ "path": "Support/Portal/app.js", "label": "fault injection" }] },
+    { "id": "browser-storage", "type": "database", "label": "Browser localStorage", "sublabel": "synthetic employee records", "pos": [1040, 580], "size": [180, 64], "sources": [{ "path": "Support/Portal/app.js", "label": "portal state" }] },
+    { "id": "evidence-store", "type": "database", "label": "Evidence", "sublabel": "scenario screenshots", "pos": [800, 580], "size": [185, 64], "sources": [{ "path": "Workflows/ProcessEmployee.xaml", "label": "evidence capture" }] },
+    { "id": "finalizer", "type": "backend", "label": "FinalizeRun.xaml", "sublabel": "final CSV + summary", "pos": [580, 580], "size": [170, 64], "sources": [{ "path": "Workflows/FinalizeRun.xaml", "label": "finalization" }] },
+    { "id": "results-store", "type": "database", "label": "Results CSV", "sublabel": "Data/Output/results.csv", "pos": [800, 140], "size": [185, 64], "sources": [{ "path": "Workflows/FinalizeRun.xaml", "label": "output CSV" }] },
+    { "id": "dashboard", "type": "frontend", "label": "Resilience Dashboard", "sublabel": "KPIs + findings + links", "pos": [1040, 140], "size": [180, 64], "sources": [{ "path": "Support/Dashboard/dashboard.js", "label": "reporting UI" }] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Local AutoChaos UiPath project", "wraps": ["main", "init-run", "scenario-runner", "employee-processor", "finalizer", "scenario-input", "results-store", "evidence-store"] },
+    { "kind": "security-group", "label": "Local browser demo boundary", "wraps": ["portal", "browser-storage", "dashboard"] }
+  ],
+  "connections": [
+    { "id": "operator-to-scenarios", "from": "operator", "to": "scenario-input", "label": "launch campaign", "variant": "emphasis", "labelDy": -26 },
+    { "id": "scenarios-to-main", "from": "scenario-input", "to": "main", "label": "read enabled rows", "labelDy": -26 },
+    { "id": "main-to-init", "from": "main", "to": "init-run", "label": "initialize", "fromSide": "top", "toSide": "bottom" },
+    { "id": "main-to-runner", "from": "main", "to": "scenario-runner", "label": "invoke per row", "labelDy": -26 },
+    { "id": "runner-to-processor", "from": "scenario-runner", "to": "employee-processor", "label": "run scenario", "labelDy": -26 },
+    { "id": "processor-to-portal", "from": "employee-processor", "to": "portal", "label": "UI Automation", "variant": "emphasis", "labelDy": -26 },
+    { "id": "portal-to-storage", "from": "portal", "to": "browser-storage", "label": "commit record", "fromSide": "bottom", "toSide": "top", "labelDy": 24 },
+    { "id": "processor-to-evidence", "from": "employee-processor", "to": "evidence-store", "label": "capture screenshot", "fromSide": "bottom", "toSide": "top", "labelDy": 24 },
+    { "id": "runner-to-results", "from": "scenario-runner", "to": "results-store", "label": "write live result", "fromSide": "top", "toSide": "bottom" },
+    { "id": "runner-to-finalizer", "from": "scenario-runner", "to": "finalizer", "label": "complete campaign", "fromSide": "bottom", "toSide": "top", "labelDy": 24 },
+    { "id": "finalizer-to-results", "from": "finalizer", "to": "results-store", "label": "write final CSV", "fromSide": "bottom", "toSide": "bottom", "via": [[665, 680], [1260, 680], [1260, 220], [892.5, 220]], "labelAt": [820, 680] },
+    { "id": "results-to-dashboard", "from": "results-store", "to": "dashboard", "label": "poll results.csv", "variant": "dashed", "labelDy": 76 }
+  ]
+}
