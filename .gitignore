@@ -17,3 +17,4 @@ Evidence/*
 *.suo
 *.nupkg
 *.snupkg
+.uipath/.skills/
