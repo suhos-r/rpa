@@ -20,6 +20,7 @@ All detail pages live under `./docs/explanation/`:
 6. [Filling the form on screen](./explanation/processemployee.md)
 7. [Closing step](./explanation/finalizerun.md)
 8. [Architecture picture — what each box and arrow means](./explanation/architecture.md)
+9. [Chaos by scenario — which move beats it](./explanation/scenarios-chaos.md)
 
 ## The 6 tries in short
 
